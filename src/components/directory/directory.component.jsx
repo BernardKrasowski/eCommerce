@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import MenuItem from "../menu-item/menu-item.component";
-import "./directory.style.scss";
+import "./directory.styles.scss";
 
 function Directory() {
   const [sections, setSections] = useState([
