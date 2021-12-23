@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./sign-in.styles.scss";
 import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
+
+import { signInWithGoogle } from "../../firebase/firebase.utils.js";
 
 function SignIn() {
   const [user, setUser] = useState({
@@ -18,10 +21,9 @@ function SignIn() {
 
     setUser((prevState) => ({ ...prevState, [name]: value }));
   };
-
   return (
     <div className="sign-in">
-      <h2>I already have an account</h2>
+      <h2 className="title">I already have an account</h2>
       <span>Sign in with your email and password</span>
 
       <form onSubmit={handleSubmite}>
@@ -42,8 +44,12 @@ function SignIn() {
           handleChange={handleChange}
           required
         />
-
-        <input type="submit" value="Submit Form" />
+        <div className="buttons">
+          <CustomButton type="submit">Sign In</CustomButton>
+          <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
+            Sign In with Google
+          </CustomButton>
+        </div>
       </form>
     </div>
   );
