@@ -1,5 +1,6 @@
 import React from "react";
 import "./form-input.styles.scss";
+import "firebase/firestore";
 
 function FormInput({ handleChange, label, ...otherProps }) {
   return (

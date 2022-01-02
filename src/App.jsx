@@ -5,7 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SigninAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
-import { auth } from "./firebase/firebase.utils";
+import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import { getDoc } from "firebase/firestore";
 
 class App extends React.Component {
   constructor() {
@@ -14,13 +15,22 @@ class App extends React.Component {
       currentUser: null,
     };
   }
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    this.insubscribeFromAuth = auth.onAuthStateChanged((user) => {
-      this.setState({ currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth);
+        const docSnap = await getDoc(userRef);
+
+        this.setState({
+          currentUser: {
+            id: docSnap.id,
+            ...docSnap.data(),
+          },
+        });
+      }
+      // console.log("User save on State", this.state.currentUser);
     });
   }
   componentWillUnmount() {
