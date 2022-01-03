@@ -29,8 +29,11 @@ class App extends React.Component {
             ...docSnap.data(),
           },
         });
+        console.log(this.state);
+      } else {
+        this.setState({ currentUser: userAuth });
+        console.log(this.state);
       }
-      // console.log("User save on State", this.state.currentUser);
     });
   }
   componentWillUnmount() {
